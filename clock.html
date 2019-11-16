@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville&display=swap" rel="stylesheet">
+    <title>Clock</title>
+    <style>    
+        body{
+            list-style-type:none;            
+            font-family:"Microsoft JhengHei",Arial, Helvetica, sans-serif;             
+        }
+
+        #taipei{           
+            float:left;
+            width:48.9vw;
+            height:100vh; 
+            position: relative;
+            overflow: hidden;
+            box-sizing: border-box;
+            background-size:cover;
+            background-repeat:no-repeat;           
+            z-index:-10 ;
+            opacity: 0.5;  
+        }
+        
+        #newyork{            
+            float:right;
+            width:48.9vw;
+            height:100vh;   
+            position: relative;
+            overflow: hidden;
+            box-sizing:border-box;
+            background-size:cover;
+            background-repeat:no-repeat;           
+            z-index:-10 ;
+            opacity: 0.5;  
+        }
+
+        #clock{
+            display:inline-block;
+            width:200px;
+            height:200px;
+            border-radius:50%;           
+            position: absolute;
+            margin:10px;           
+             /* 水平位移 垂直位移 模糊大小 陰影尺寸 顏色 inset(內陰影) */
+            box-shadow: 0px 0px 10px 15px rgb(247, 243, 3), 0px 0px 10px 10px rgb(74, 252, 4) inset;
+            opacity: 0.8;
+            z-index:100 ;             
+        }
+
+        #clock1{
+            display:inline-block;
+            width:200px;
+            height:200px;
+            border-radius:50%;          
+            position: absolute;;
+            margin:10px 30px calc(100% - 30px) calc(50% + 150px); 
+            box-shadow: 0px 0px 10px 15px rgb(3, 238, 247), 0px 0px 10px 10px rgb(223, 4, 252) inset;
+            opacity: 0.8;  
+            z-index:100 ;              
+        }
+
+        #second::after{
+            content:"";
+            display:inline-block;
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(234, 0, 255, 0.952);
+            top: 50%;
+            transform: rotate(90deg);
+            transform-origin: right center;
+            border-radius: 50%;            
+        } 
+
+        #second{
+            position: absolute;
+            width: 50%;
+            height: 4px;
+            background: rgba(255, 165, 0, 0);
+            top: calc(50% - 2px);
+            transform: rotate(90deg);
+            transform-origin: right center;
+            border-radius: 3px;           
+        } 
+
+        #second1::after{
+            content:"";
+            display:inline-block;
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(217, 255, 0, 0.952);
+            top: 50%;
+            transform: rotate(90deg);
+            transform-origin: right center;
+            border-radius: 50%;            
+        } 
+
+        #second1{
+            position: absolute;
+            width: 50%;
+            height: 4px;
+            background: rgba(255, 165, 0, 0);
+            top: calc(50% - 2px);
+            transform: rotate(90deg);
+            transform-origin: right center;
+            border-radius: 3px;           
+        } 
+
+        #minute{
+            position:absolute;
+            width:45%;
+            height:8px;
+            left:5%;
+            background:rgb(247, 243, 3);
+            top:calc(50% - 4px);
+            transform:rotate(90deg);
+            transform-origin:right center;
+            border-radius:10px;            
+        }
+
+        #minute1{
+            position:absolute;
+            width:45%;
+            height:8px;
+            left:5%;
+            background:rgb(3, 238, 247);
+            top:calc(50% - 4px);
+            transform:rotate(90deg);
+            transform-origin:right center;
+            border-radius:10px;          
+        }
+
+        #hour{
+            position:absolute;
+            width:25%;
+            height:16px;
+            left:25%;
+            background: rgb(74, 252, 4);
+            top:calc(50% - 8px);
+            transform:rotate(90deg);
+            transform-origin:right center;
+            border-radius:10px;           
+        }
+
+        #hour1{
+            position:absolute;
+            width:25%;
+            height:16px;
+            left:25%;
+            background: rgb(223, 4, 252);
+            top:calc(50% - 8px);
+            transform:rotate(90deg);
+            transform-origin:right center;
+            border-radius:10px;           
+        }
+
+        .now{
+            font-family: 'Courier New', Courier, monospace;
+            font-size:20px;
+            font-weight:bold ;
+            color:rgba(234, 0, 255, 0.952);
+            text-align:left;           
+            opacity:1;                     
+        }
+        
+        .now1{
+            font-family: 'Courier New', Courier, monospace;
+            font-size:20px;
+            font-weight:bold ;
+            color:rgba(217, 255, 0, 0.952);
+            text-align:right;           
+            opacity: 1;                     
+        }
+    </style>
+</head>
+
+<body>
+    
+    <div id="taipei">       
+        <p class="now"><span id="time"></span></p>
+        <div  id="clock" >
+            <div id="hour"></div>
+            <div id="minute"></div>
+            <div id="second"></div>         
+        </div>               
+    </div>
+
+    <div id="newyork">        
+        <p class="now1"><span id="time1"></span></p>
+        <div id="clock1" >
+            <div id="hour1"></div>
+            <div id="minute1"></div>
+            <div id="second1"></div>         
+        </div>
+    </div>
+
+    <script> 
+    
+        let clock=() => {   
+            let hour=document.getElementById("hour");
+            let minute=document.getElementById("minute");
+            let second=document.getElementById("second");
+            let time=document.getElementById("time");
+
+            let date=new Date();
+            let h=date.getHours();
+            let m=date.getMinutes();
+            let s=date.getSeconds();
+
+            hour.style.transform=`rotate(${h*30+90}deg)`;
+            minute.style.transform=`rotate(${m*6+90}deg)`;
+            second.style.transform=`rotate(${s*6+90}deg)`;
+
+            let y=date.getFullYear();
+            let mon=date.getMonth()+1;
+            let d=date.getDate();            
+            console.log(y+"/"+mon+"/"+d+"-"+h+":"+m+":"+s);           
+            time.innerText = y+"/"+mon+"/"+d+"-"+h+":"+m+":"+s;           
+        }
+ 
+        clock();
+        setInterval(clock, 1000);
+
+
+        // set newyork time
+        let clock1=() => {  
+            let hour=document.getElementById("hour1");
+            let minute=document.getElementById("minute1");
+            let second=document.getElementById("second1");
+            let time=document.getElementById("time1");  
+                     
+            let date1=new Date();    
+            let h=date1.getUTCHours()-5;
+            let m=date1.getUTCMinutes();
+            let s=date1.getUTCSeconds();
+
+            hour.style.transform=`rotate(${h*30+90}deg)`;
+            minute.style.transform=`rotate(${m*6+90}deg)`;
+            second.style.transform=`rotate(${s*6+90}deg)`;
+           
+            let y=date1.getUTCFullYear();
+            let mon=date1.getUTCMonth()+1;
+            let d=date1.getUTCDate();                              
+            time.innerText = "NEW YORK:"+y+"/"+mon+"/"+d+"-"+h+":"+m+":"+s;            
+        }
+ 
+        clock1();
+        setInterval(clock1, 1000);
+
+
+        // set taipei img
+        function showPic() {
+            let mydate=new Date();
+            let s=mydate.getUTCSeconds();                
+           
+            if (s>=0 && s<=9) {
+                document.getElementById("taipie").style.backgroundImage="url(./img/tp/tp2.jpg)";                
+            }else if (s>=10 && s<=19) {
+                document.getElementById("taipei").style.backgroundImage="url(./img/tp/tp3.jpg)"; 
+            }else if (s>=20 && s<=29) {
+                document.getElementById("taipei").style.backgroundImage="url(./img/tp/tp4.jpg)"; 
+            }else if (s>=30 && s<=39) {
+                document.getElementById("taipei").style.backgroundImage="url(./img/tp/tp5.jpg)"; 
+            }else if (s>=40 && s<=49) {
+                document.getElementById("taipei").style.backgroundImage="url(./img/tp/tp6.jpg)"; 
+            }else if (s>=50 && s<=59) {
+                document.getElementById("taipei").style.backgroundImage="url(./img/tp/tp1.jpg)"; 
+            }           
+        }
+
+        showPic();
+        setInterval(showPic,1000);
+
+
+         // set new york img
+         function showPic1() {
+            let mydate=new Date();
+            let s=mydate.getUTCSeconds();
+            if (s>=0 && s<=9) {
+                document.getElementById("newyork").style.backgroundImage="url(./img/ny/ny5.jpg)";                
+            }else if (s>=10 && s<=19) {
+                document.getElementById("newyork").style.backgroundImage="url(./img/ny/ny6.jpg)";  
+            }else if (s>=20 && s<=29) {
+                document.getElementById("newyork").style.backgroundImage="url(./img/ny/ny1.jpg)";  
+            }else if (s>=30 && s<=39) {
+                document.getElementById("newyork").style.backgroundImage="url(./img/ny/ny2.jpg)";   
+            }else if (s>=40 && s<=49) {
+                document.getElementById("newyork").style.backgroundImage="url(./img/ny/ny3.jpg)";  
+            }else if (s>=50 && s<=59) {
+                document.getElementById("newyork").style.backgroundImage="url(./img/ny/ny4.jpg)";  
+            } 
+        }
+
+        showPic1();
+        setInterval(showPic1,1000);
+
+    </script>
+
+</body>
+</html>
